@@ -1,0 +1,39 @@
+
+import { useEffect, useState } from 'react';
+import type { Book } from '../../types/Books';
+import { getAllBooks } from '../../services/bookService';
+import { BookCard } from '../BookCard';
+
+function Cards() {
+  const [books, setBooks] = useState<Book[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    getAllBooks()
+      .then(setBooks)
+      .catch(() => setError('Erro ao carregar livros. Verifique se a API está rodando.'))
+      .finally(() => setLoading(false));
+  }, []);
+
+  if (loading) return <p style={{ textAlign: 'center', marginTop: '2rem' }}>Carregando livros...</p>;
+  if (error) return <p style={{ color: 'red', textAlign: 'center' }}>{error}</p>;
+
+  return (
+    <div style={{ padding: '2rem' }}>
+      <h1 style={{ textAlign: 'center', marginBottom: '2rem' }}>📚 Biblioteca de Livros</h1>
+      <div style={{
+        display: 'flex',
+        flexWrap: 'wrap',
+        gap: '20px',
+        justifyContent: 'center'
+      }}>
+        {books.map(book => (
+          <BookCard key={book.id} book={book} />
+        ))}
+      </div>
+    </div>
+  );
+}
+
+export default Cards;
