@@ -6,4 +6,5 @@ export interface Book {
   author: string;
   coverUrl: string;
   description: string;
+  price:number;
 }

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Search, ShoppingCart, User, Menu, X } from "lucide-react";
+
 import { Search as SearchIcon, ShoppingCart as CartIcon, User as UserIcon, Menu as MenuIcon, X as CloseIcon } from "lucide-react";
 
 const NavBar = () => {
