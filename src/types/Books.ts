@@ -8,3 +8,7 @@ export interface Book {
   description: string;
   price:number;
 }
+
+export interface CartItem extends Book {
+  qty: number;
+}
