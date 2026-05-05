@@ -24,10 +24,7 @@ export function BookCard({ book }: { book: Book }) {
           (e.target as HTMLImageElement).src = 'https://via.placeholder.com/200x280';
         }}
       />
-      <div style={{ padding: '12px' }}>
-        <div style={{ float: 'right', color: inCart ? '#F59106' : '#000' }}>
-          <ShoppingCart size={20} />
-        </div>
+      <div style={{ padding: '12px' }}>       
         <h3 style={{ margin: '0 0 4px', fontSize: '14px', clear: 'both' }}>{book.title}</h3>
         <p style={{ margin: '0 0 8px', fontSize: '12px', color: '#666' }}>{book.author}</p>
         <span style={{ fontWeight: 'bold', color: '#333' }}>
