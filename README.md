@@ -97,3 +97,7 @@ npm run dev
 Desenvolvido com ☕ e TypeScript por **Caio**.
 
 ---
+
+ ## 👨‍💻 Projeto
+
+ *  Back-end - [Api do projeto](https://github.com/DocCaio/Magic-books-api)
