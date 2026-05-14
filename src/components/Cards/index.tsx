@@ -1,37 +1,42 @@
 
-import { useEffect, useState } from 'react';
+import { use, Suspense } from 'react';
 import type { Book } from '../../types/Books';
 import { getAllBooks } from '../../services/bookService';
 import { BookCard } from '../BookCard';
+import { ErrorBoundary } from 'react-error-boundary';
+
+
+const booksPromise = getAllBooks();
+
+function BookList() {
+  
+  const books: Book[] = use(booksPromise);
+
+  return (
+    <div style={{ display: 'flex', flexWrap: 'wrap', gap: '20px', justifyContent: 'center' }}>
+      {books.map(book => (
+        <BookCard key={book.id} book={book} />
+      ))}
+    </div>
+  );
+}
 
 function Cards() {
-  const [books, setBooks] = useState<Book[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-
-  useEffect(() => {
-    getAllBooks()
-      .then(setBooks)
-      .catch(() => setError('Erro ao carregar livros. Verifique se a API está rodando.'))
-      .finally(() => setLoading(false));
-  }, []);
-
-  if (loading) return <p style={{ textAlign: 'center', marginTop: '2rem' }}>Carregando livros...</p>;
-  if (error) return <p style={{ color: 'red', textAlign: 'center' }}>{error}</p>;
-
   return (
     <div style={{ padding: '2rem' }}>
       <h1 style={{ textAlign: 'center', marginBottom: '2rem' }}>📚 Biblioteca de Livros</h1>
-      <div style={{
-        display: 'flex',
-        flexWrap: 'wrap',
-        gap: '20px',
-        justifyContent: 'center'
-      }}>
-        {books.map(book => (
-          <BookCard key={book.id} book={book} />
-        ))}
-      </div>
+
+      <ErrorBoundary
+        fallback={<p style={{ color: 'red', textAlign: 'center' }}>
+          Erro ao carregar livros. Verifique se a API está rodando.
+        </p>}
+      >
+        <Suspense
+          fallback={<p style={{ textAlign: 'center', marginTop: '2rem' }}>Carregando livros...</p>}
+        >
+          <BookList />
+        </Suspense>
+      </ErrorBoundary>
     </div>
   );
 }
